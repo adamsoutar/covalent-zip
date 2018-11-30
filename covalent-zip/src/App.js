@@ -5,6 +5,8 @@ import styled from 'styled-components'
 import cnst from './constants'
 import StatusBar from './components/StatusBar'
 import Header from './components/Header'
+import FileDrop from 'react-file-drop'
+import zipHandler from './zipHandler'
 
 const Browser = () => {
  return <div>File loaded.</div>
@@ -19,13 +21,23 @@ const WelcomeStyled = styled.div`
   height: calc(100% - ${cnst.headerHeight + cnst.statusBarHeight}px);
 `
 
-const Welcome = () => {
- return (
-   <WelcomeStyled>
-    <h1>The next level zip app</h1>
-    <h4>Drop a file here, or click to browse</h4>
-   </WelcomeStyled>
- )
+class Welcome extends Component {
+  handleDrop(files, event) {
+    if (files[0]) {
+      // They've given us something!
+    }
+  }
+
+  render() {
+   return (
+     <WelcomeStyled>
+      <FileDrop onDrop={this.handleDrop}>
+        <h1>The next level zip app</h1>
+        <h4>Drop a file here, or click to browse</h4>
+      </FileDrop>
+     </WelcomeStyled>
+   )
+  }
 }
 
 class App extends Component {
