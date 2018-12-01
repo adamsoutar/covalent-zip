@@ -1,5 +1,3 @@
-// App handles all zip logic and basically acts as a global scope
-
 import React, { Component, Fragment } from 'react'
 import styled from 'styled-components'
 import cnst from './constants'
@@ -22,16 +20,23 @@ const WelcomeStyled = styled.div`
 `
 
 class Welcome extends Component {
-  handleDrop(files, event) {
+  handleDrop(files) {
     if (files[0]) {
       // They've given us something!
+      // TODO: Show loading
+      zipHandler.loadFile(files[0], (zip) => {
+        this.props.zipLoaded()
+      })
+    } else {
+      // TODO: Clean
+      alert('No files were dropped!')
     }
   }
 
   render() {
    return (
      <WelcomeStyled>
-      <FileDrop onDrop={this.handleDrop}>
+      <FileDrop onDrop={(files) => { this.handleDrop(files) }}>
         <h1>The next level zip app</h1>
         <h4>Drop a file here, or click to browse</h4>
       </FileDrop>
@@ -45,15 +50,28 @@ class App extends Component {
     super(props)
     this.state = {
       browsing: false,
-      zipFile: undefined
+      folderContents: []
     }
+  }
+
+  zipLoaded() {
+    this.setState({
+      browsing: true
+    })
+    this.browseZipFolder('')
+  }
+
+  browseZipFolder(relativePath) {
+      // DUMMY
   }
 
   render() {
     return (
       <Fragment>
         <Header />
-        {this.state.browsing ? <Browser /> : <Welcome />}
+        {this.state.browsing ?
+          <Browser contents={this.state.contents} /> :
+          <Welcome zipLoaded={() => { this.zipLoaded() } } />}
         <StatusBar statusText="Idle"/>
       </Fragment>
     )
