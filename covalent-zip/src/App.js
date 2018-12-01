@@ -50,6 +50,7 @@ class App extends Component {
     super(props)
     this.state = {
       browsing: false,
+      relativePath: '',
       folderContents: []
     }
   }
@@ -62,7 +63,10 @@ class App extends Component {
   }
 
   browseZipFolder(relativePath) {
-      // DUMMY
+    this.setState({
+      relativePath: relativePath,
+      folderContents: zipHandler.filesInPath(relativePath)
+    })
   }
 
   render() {
@@ -70,7 +74,7 @@ class App extends Component {
       <Fragment>
         <Header />
         {this.state.browsing ?
-          <Browser contents={this.state.contents} /> :
+          <Browser contents={this.state.folderContents} /> :
           <Welcome zipLoaded={() => { this.zipLoaded() } } />}
         <StatusBar statusText="Idle"/>
       </Fragment>
