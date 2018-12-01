@@ -7,6 +7,8 @@ import FileDrop from 'react-file-drop'
 import zipHandler from './zipHandler'
 import Browser from './components/Browser'
 
+var statusBarText = 'Idle'
+
 const WelcomeStyled = styled(FileDrop)`
   height: calc(100% - ${cnst.headerHeight + cnst.statusBarHeight}px);
 `
@@ -15,6 +17,7 @@ class Welcome extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      mainTitle: 'The next level zip app',
       loading: false,
       fileName: 'unknown.zip'
     }
@@ -24,16 +27,29 @@ class Welcome extends Component {
     if (files[0]) {
       // They've given us something!
       // TODO: Show loading
-      zipHandler.loadFile(files[0], (zip) => {
+      const fileName = files[0].name
+      statusBarText = 'Loading preview...'
+      zipHandler.loadFile(files[0], (err, zip) => {
+        this.setState({
+          loading: false
+        })
+        if (err) {
+          statusBarText = 'Failed to open that file!'
+          console.log(err)
+          this.setState({
+            mainTitle: 'Whoops! Are you sure that was a ZIP file?'
+          })
+          return
+        }
+        statusBarText = `Previewing ${fileName}`
         this.props.zipLoaded()
       })
       this.setState({
         loading: true,
-        fileName: files[0].name
+        fileName: fileName
       })
     } else {
-      // TODO: Clean
-      alert('No files were dropped!')
+      statusBarText = 'Preview failed, no files dropped.'
     }
   }
 
@@ -48,7 +64,7 @@ class Welcome extends Component {
            </Fragment>)
            : (
            <Fragment>
-             <h1>The next level zip app</h1>
+             <h1>{this.state.mainTitle}</h1>
              <h4>Drop a file here, or click to browse</h4>
            </Fragment>)
          }
@@ -105,7 +121,7 @@ class App extends Component {
             upOneFolder={() => { this.upOneFolder() }}
             contents={this.state.folderContents} /> :
           <Welcome zipLoaded={() => { this.browseZipFolder('') } } />}
-        <StatusBar statusText="Idle"/>
+        <StatusBar statusText={statusBarText}/>
       </Fragment>
     )
   }

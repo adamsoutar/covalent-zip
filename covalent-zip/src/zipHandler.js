@@ -14,7 +14,12 @@ var funcs = {
     reader.onloadend = (readerOutput) => {
       zipFile= new JSZip()
       zipFile.loadAsync(reader.result)
-      .then(callback)
+      .then((zip) => {
+        callback(null, zip)
+      })
+      .catch((err) => {
+        callback(err, null)
+      })
     }
     reader.readAsArrayBuffer(fileObj)
   },
