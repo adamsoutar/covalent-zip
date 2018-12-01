@@ -78,6 +78,19 @@ var funcs = {
 
   createFolder: (folderName) => {
     zipFile.folder(folderName)
+  },
+
+  addFile: (fileObj, fileName, callback) => {
+    var reader = new FileReader()
+    reader.onloadend = (fileOut) => {
+      zipFile.file(fileName, fileOut.result)
+      callback(true)
+    }
+    reader.onerror = (err) => {
+      console.log(err)
+      callback(false)
+    }
+    reader.readAsArrayBuffer(fileObj)
   }
 }
 

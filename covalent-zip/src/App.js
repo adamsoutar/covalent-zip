@@ -89,6 +89,7 @@ class App extends Component {
       status: 'Idle',
       fileName: 'none'
     }
+    this.fileUploader = React.createRef()
   }
 
   updateStatusBar (newStr) {
@@ -164,6 +165,36 @@ class App extends Component {
       this.updateStatusBar("Can't create a folder with no name!")
     }
   }
+  uploadFile () {
+    this.fileUploader.current.click()
+  }
+  handleFileUpload () {
+    var files = this.fileUploader.current.files
+    if (files.length > 0) {
+      var filesUploaded = 0
+      var errors = false
+
+      function fileUploaded (success) {
+        filesUploaded++
+        if (!success) {
+          errors = true
+        }
+        if (filesUploaded = files.length) {
+          this.updateStatusBar((errors) ?
+            'Some errors occurred while uploading. Check console.' :
+            'All files added successfully.'
+          )
+          this.browseZipFolder(this.state.relativePath)
+        }
+      }
+
+      for (let f of files) {
+        zipHandler.addFile(f, `${this.state.relativePath}${f.name}`, fileUploaded.bind(this))
+      }
+    } else {
+      this.updateStatusBar('No files were selected')
+    }
+  }
 
   zipLoaded (fileName) {
     this.setState({
@@ -180,6 +211,7 @@ class App extends Component {
         createZip={() => { this.createZip() }}
         downloadZip={() => { this.downloadZip() }}
         newFolder={() => { this.newFolder() }}
+        uploadFile={() => { this.uploadFile() }}
         zipOpen={this.state.browsing} />
         {this.state.browsing
           ? <Browser
@@ -194,6 +226,13 @@ class App extends Component {
             updateStatusBar={(x) => { this.updateStatusBar(x) }}
           />}
         <StatusBar statusText={this.state.status} />
+
+        <input
+        id='fileUploader'
+        type='file'
+        onChange={this.handleFileUpload.bind(this)}
+        ref={this.fileUploader}
+        style={{ position: 'fixed', top: '-1000px' }} />
       </Fragment>
     )
   }
