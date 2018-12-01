@@ -179,7 +179,7 @@ class App extends Component {
         if (!success) {
           errors = true
         }
-        if (filesUploaded = files.length) {
+        if (filesUploaded === files.length) {
           this.updateStatusBar((errors) ?
             'Some errors occurred while uploading. Check console.' :
             'All files added successfully.'
