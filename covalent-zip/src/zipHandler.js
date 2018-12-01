@@ -1,6 +1,6 @@
 import JSZip from 'jszip'
 
-var zipFile = undefined
+var zipFile
 
 function getFolderDepth(pth) {
   return pth.split('/').length - 1

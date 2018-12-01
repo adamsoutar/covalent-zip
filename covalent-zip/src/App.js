@@ -12,12 +12,24 @@ const WelcomeStyled = styled(FileDrop)`
 `
 
 class Welcome extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      loading: false,
+      fileName: 'unknown.zip'
+    }
+  }
+
   handleDrop(files) {
     if (files[0]) {
       // They've given us something!
       // TODO: Show loading
       zipHandler.loadFile(files[0], (zip) => {
         this.props.zipLoaded()
+      })
+      this.setState({
+        loading: true,
+        fileName: files[0].name
       })
     } else {
       // TODO: Clean
@@ -27,10 +39,21 @@ class Welcome extends Component {
 
   render() {
    return (
-     <WelcomeStyled onDrop={(files) => { this.handleDrop(files) }}>
-        <h1>The next level zip app</h1>
-        <h4>Drop a file here, or click to browse</h4>
-     </WelcomeStyled>
+     <Fragment>
+         <WelcomeStyled onDrop={(files) => { this.handleDrop(files) }}>
+         {this.state.loading ? (
+           <Fragment>
+             <h1>Unpacking preview...</h1>
+             <h4>Please wait while load {this.state.fileName}</h4>
+           </Fragment>)
+           : (
+           <Fragment>
+             <h1>The next level zip app</h1>
+             <h4>Drop a file here, or click to browse</h4>
+           </Fragment>)
+         }
+        </WelcomeStyled>
+      </Fragment>
    )
   }
 }
