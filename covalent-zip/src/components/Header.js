@@ -25,12 +25,12 @@ class Header extends Component {
       <HeaderStyled>
           Covalent Zip
 
-          {this.props.zipOpen ?
-            <MenuStyled>
-              <span onClick={this.props.closeZip}>close</span>
-            </MenuStyled> :
-            <Fragment />
-          }
+          <MenuStyled>
+            {this.props.zipOpen ?
+              <span onClick={this.props.closeZip}>close</span> :
+              <span onClick={this.props.createZip}>create</span>
+            }
+          </MenuStyled>
       </HeaderStyled>
     )
   }

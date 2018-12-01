@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react'
 import FolderIcon from '../icons/folder.png'
 import DocumentIcon from '../icons/document.png'
 import ImageIcon from '../icons/image.png'
+import CrossIcon from '../icons/cross.png'
 import styled from 'styled-components'
 import cnst from '../constants'
 
@@ -28,6 +29,9 @@ const ItemIcon = styled.img`
 
 class ZipItem extends Component {
   determineIcon () {
+    if (!(this.props.file || this.props.folder)) {
+      return CrossIcon
+    }
     if (this.props.file) {
       const fileSplit = this.props.item.split('.')
       const ext = fileSplit[fileSplit.length - 1]
@@ -48,6 +52,13 @@ class ZipItem extends Component {
 }
 
 class Browser extends Component {
+  hasContent () {
+    return (
+      this.props.contents.files.length > 0 ||
+      this.props.contents.folders.length > 0
+    )
+  }
+
   render () {
     return (
       <BrowserStyled>
@@ -55,17 +66,23 @@ class Browser extends Component {
           this.props.upOneFolder()
         }} /> }
 
-        {this.props.contents.folders.map((x) => {
-          return <ZipItem key={x} item={x} folder onClick={() => {
-            this.props.enterFolder(x)
-          }} />
-        })}
+        {this.hasContent() ?
+        <Fragment>
+          {this.props.contents.folders.map((x) => {
+            return <ZipItem key={x} item={x} folder onClick={() => {
+              this.props.enterFolder(x)
+            }} />
+          })}
 
-        {this.props.contents.files.map((x) => {
-          return <ZipItem key={x} item={x} file onClick={() => {
-            this.props.downloadFile(x)
-          }} />
-        })}
+          {this.props.contents.files.map((x) => {
+            return <ZipItem key={x} item={x} file onClick={() => {
+              this.props.downloadFile(x)
+            }} />
+          })}
+        </Fragment>
+        : <ZipItem item='This folder is empty' />
+      }
+
       </BrowserStyled>
     )
   }

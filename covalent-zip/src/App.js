@@ -16,7 +16,7 @@ class Welcome extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      mainTitle: 'The next level zip app',
+      mainTitle: 'A zip app built with web technologies',
       loading: false,
       fileName: 'unknown.zip'
     }
@@ -64,7 +64,7 @@ class Welcome extends Component {
             </Fragment>
             : <Fragment>
               <h1>{this.state.mainTitle}</h1>
-              <label for='clickInput'><h4>Drop a file here, or click to browse</h4></label>
+              <label htmlFor='clickInput'><h4>Drop a file on the window, or click here to browse</h4></label>
               <input
               id='clickInput'
               type='file'
@@ -137,12 +137,17 @@ class App extends Component {
       browsing: false
     })
   }
+  createZip () {
+    zipHandler.createNew()
+    this.browseZipFolder('')
+  }
 
   render () {
     return (
       <Fragment>
         <Header
         closeZip={() => { this.closeZip() }}
+        createZip={() => { this.createZip() }}
         zipOpen={this.state.browsing} />
         {this.state.browsing
           ? <Browser

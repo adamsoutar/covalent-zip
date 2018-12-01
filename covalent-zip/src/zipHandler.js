@@ -61,6 +61,10 @@ var funcs = {
     zipFile.file(relName).async('blob')
     .then((fBlob) => { callback(null, fBlob) })
     .catch((err) => { callback(err, null) })
+  },
+
+  createNew: () => {
+    zipFile = new JSZip()
   }
 }
 
