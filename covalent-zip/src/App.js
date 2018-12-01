@@ -109,11 +109,8 @@ class App extends Component {
     const folders = this.state.relativePath.split('/')
     folders.pop()
     folders.pop()
-    console.log(folders)
     const rP = folders.join('/')
-    console.log(rP)
     const newPath = `${rP}${(rP === '') ? '' : '/'}`
-    console.log(newPath)
     this.browseZipFolder(newPath)
   }
 
