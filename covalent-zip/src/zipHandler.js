@@ -74,6 +74,10 @@ var funcs = {
     }, (err) => {
       callback(err, null)
     })
+  },
+
+  createFolder: (folderName) => {
+    zipFile.folder(folderName)
   }
 }
 

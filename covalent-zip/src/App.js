@@ -153,6 +153,17 @@ class App extends Component {
       FileSaver.saveAs(fBlob, this.state.fileName)
     })
   }
+  newFolder () {
+    // TODO: Use a styled modal, not prompt
+    const folderName = prompt('Name for new folder:')
+    if (folderName) {
+      zipHandler.createFolder(folderName)
+      // Update the view
+      this.browseZipFolder(this.state.relativePath)
+    } else {
+      this.updateStatusBar("Can't create a folder with no name!")
+    }
+  }
 
   zipLoaded (fileName) {
     this.setState({
@@ -168,6 +179,7 @@ class App extends Component {
         closeZip={() => { this.closeZip() }}
         createZip={() => { this.createZip() }}
         downloadZip={() => { this.downloadZip() }}
+        newFolder={() => { this.newFolder() }}
         zipOpen={this.state.browsing} />
         {this.state.browsing
           ? <Browser
