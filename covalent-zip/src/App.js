@@ -20,9 +20,10 @@ class Welcome extends Component {
       loading: false,
       fileName: 'unknown.zip'
     }
+    this.fileInput = React.createRef()
   }
 
-  handleDrop (files) {
+  handleFiles (files) {
     if (files[0]) {
       // They've given us something!
       // TODO: Show loading
@@ -36,7 +37,7 @@ class Welcome extends Component {
           this.props.updateStatusBar(`Failed to open ${fileName}`)
           console.log(err)
           this.setState({
-            mainTitle: 'Whoops! Are you sure that was a ZIP file?'
+            mainTitle: 'Whoops! Are you sure that was a zip file?'
           })
           return
         }
@@ -55,7 +56,7 @@ class Welcome extends Component {
   render () {
     return (
       <Fragment>
-        <WelcomeStyled onDrop={(files) => { this.handleDrop(files) }}>
+        <WelcomeStyled onDrop={(files) => { this.handleFiles(files) }}>
           {this.state.loading
             ? <Fragment>
               <h1>Unpacking preview...</h1>
@@ -63,7 +64,13 @@ class Welcome extends Component {
             </Fragment>
             : <Fragment>
               <h1>{this.state.mainTitle}</h1>
-              <h4>Drop a file here, or click to browse</h4>
+              <label for='clickInput'><h4>Drop a file here, or click to browse</h4></label>
+              <input
+              id='clickInput'
+              type='file'
+              onChange={() => { this.handleFiles(this.fileInput.current.files) }}
+              ref={this.fileInput}
+              style={{ position: 'fixed', top: '-1000px' }} />
             </Fragment>
           }
         </WelcomeStyled>
@@ -124,10 +131,19 @@ class App extends Component {
     })
   }
 
+  closeZip () {
+    this.updateStatusBar(`Preview closed`)
+    this.setState({
+      browsing: false
+    })
+  }
+
   render () {
     return (
       <Fragment>
-        <Header />
+        <Header
+        closeZip={() => { this.closeZip() }}
+        zipOpen={this.state.browsing} />
         {this.state.browsing
           ? <Browser
             isRoot={(this.state.relativePath === '')}

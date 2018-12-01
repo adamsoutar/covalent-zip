@@ -15,6 +15,7 @@ const ZipItemStyled = styled.div`
   line-height: ${cnst.zipItemHeight}px;
   border-bottom: 1px solid black;
   padding-left: 20px;
+  cursor: pointer;
 `
 const iconHeight = cnst.zipItemHeight - cnst.zipIconPadding
 const ItemIcon = styled.img`
