@@ -28,20 +28,20 @@ class Welcome extends Component {
       // They've given us something!
       // TODO: Show loading
       const fileName = files[0].name
-      statusBarText = 'Loading preview...'
+      this.props.updateStatusBar('Loading preview...')
       zipHandler.loadFile(files[0], (err, zip) => {
         this.setState({
           loading: false
         })
         if (err) {
-          statusBarText = 'Failed to open that file!'
+          this.props.updateStatusBar(`Failed to open ${fileName}`)
           console.log(err)
           this.setState({
             mainTitle: 'Whoops! Are you sure that was a ZIP file?'
           })
           return
         }
-        statusBarText = `Previewing ${fileName}`
+        this.props.updateStatusBar(`Previewing ${fileName}`)
         this.props.zipLoaded()
       })
       this.setState({
@@ -49,7 +49,7 @@ class Welcome extends Component {
         fileName: fileName
       })
     } else {
-      statusBarText = 'Preview failed, no files dropped.'
+      this.props.updateStatusBar('Preview failed, no files dropped.')
     }
   }
 
@@ -80,8 +80,15 @@ class App extends Component {
     this.state = {
       browsing: false,
       relativePath: '',
-      folderContents: []
+      folderContents: [],
+      status: 'Idle'
     }
+  }
+
+  updateStatusBar(newStr) {
+    this.setState({
+      status: newStr
+    })
   }
 
   browseZipFolder(relativePath) {
@@ -119,9 +126,14 @@ class App extends Component {
             isRoot={(this.state.relativePath === '')}
             enterFolder={(x) => { this.enterFolder(x) }}
             upOneFolder={() => { this.upOneFolder() }}
-            contents={this.state.folderContents} /> :
-          <Welcome zipLoaded={() => { this.browseZipFolder('') } } />}
-        <StatusBar statusText={statusBarText}/>
+            updateStatusBar={(x) => { this.updateStatusBar(x) }}
+            contents={this.state.folderContents} />
+          :
+          <Welcome
+            zipLoaded={() => { this.browseZipFolder('') } }
+            updateStatusBar={(x) => { this.updateStatusBar(x) }}
+          />}
+        <StatusBar statusText={this.state.status}/>
       </Fragment>
     )
   }
