@@ -28,17 +28,17 @@ class Header extends Component {
       <HeaderStyled>
           Covalent Zip
 
-          <MenuStyled>
-            {this.props.zipOpen ?
-              <Fragment>
-                <MenuItem onClick={this.props.newFolder}>new folder</MenuItem>
-                <MenuItem onClick={this.props.uploadFile}>upload file</MenuItem>
-                <MenuItem onClick={this.props.downloadZip}>compress</MenuItem>
-                <MenuItem onClick={this.props.closeZip}>close</MenuItem>
-              </Fragment>
-              : <MenuItem onClick={this.props.createZip}>create</MenuItem>
-            }
-          </MenuStyled>
+        <MenuStyled>
+          {this.props.zipOpen
+            ? <Fragment>
+              <MenuItem onClick={this.props.newFolder}>new folder</MenuItem>
+              <MenuItem onClick={this.props.uploadFile}>upload file</MenuItem>
+              <MenuItem onClick={this.props.downloadZip}>compress</MenuItem>
+              <MenuItem onClick={this.props.closeZip}>close</MenuItem>
+            </Fragment>
+            : <MenuItem onClick={this.props.createZip}>create</MenuItem>
+          }
+        </MenuStyled>
       </HeaderStyled>
     )
   }

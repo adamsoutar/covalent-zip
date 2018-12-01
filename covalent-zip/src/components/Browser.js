@@ -22,7 +22,7 @@ const iconHeight = cnst.zipItemHeight - cnst.zipIconPadding
 const ItemIcon = styled.img`
   width: ${iconHeight}px;
   height: ${iconHeight}px;
-  margin-top: ${(cnst.zipItemHeight - iconHeight)/ 2}px;
+  margin-top: ${(cnst.zipItemHeight - iconHeight) / 2}px;
   margin-right: 5px;
   float: left;
 `
@@ -44,7 +44,7 @@ class ZipItem extends Component {
   render () {
     return (
       <ZipItemStyled onClick={this.props.onClick}>
-        <ItemIcon src={this.determineIcon()}/>
+        <ItemIcon src={this.determineIcon()} />
         <div style={{ float: 'left' }}>{this.props.item}</div>
       </ZipItemStyled>
     )
@@ -66,22 +66,22 @@ class Browser extends Component {
           this.props.upOneFolder()
         }} /> }
 
-        {this.hasContent() ?
-        <Fragment>
-          {this.props.contents.folders.map((x) => {
-            return <ZipItem key={x} item={x} folder onClick={() => {
-              this.props.enterFolder(x)
-            }} />
-          })}
+        {this.hasContent()
+          ? <Fragment>
+            {this.props.contents.folders.map((x) => {
+              return <ZipItem key={x} item={x} folder onClick={() => {
+                this.props.enterFolder(x)
+              }} />
+            })}
 
-          {this.props.contents.files.map((x) => {
-            return <ZipItem key={x} item={x} file onClick={() => {
-              this.props.downloadFile(x)
-            }} />
-          })}
-        </Fragment>
-        : <ZipItem item='This folder is empty' />
-      }
+            {this.props.contents.files.map((x) => {
+              return <ZipItem key={x} item={x} file onClick={() => {
+                this.props.downloadFile(x)
+              }} />
+            })}
+          </Fragment>
+          : <ZipItem item='This folder is empty' />
+        }
 
       </BrowserStyled>
     )

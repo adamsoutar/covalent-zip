@@ -59,8 +59,8 @@ var funcs = {
 
   getFileAsBlob: (relName, callback) => {
     zipFile.file(relName).async('blob')
-    .then((fBlob) => { callback(null, fBlob) })
-    .catch((err) => { callback(err, null) })
+      .then((fBlob) => { callback(null, fBlob) })
+      .catch((err) => { callback(err, null) })
   },
 
   createNew: () => {
@@ -69,11 +69,11 @@ var funcs = {
 
   getZipAsBlob: (callback) => {
     zipFile.generateAsync({ type: 'blob' })
-    .then((blob) => {
-      callback(null, blob)
-    }, (err) => {
-      callback(err, null)
-    })
+      .then((blob) => {
+        callback(null, blob)
+      }, (err) => {
+        callback(err, null)
+      })
   },
 
   createFolder: (folderName) => {

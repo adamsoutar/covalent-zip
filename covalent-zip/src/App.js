@@ -66,11 +66,11 @@ class Welcome extends Component {
               <h1>{this.state.mainTitle}</h1>
               <label htmlFor='clickInput'><h4>Drop a file on the window, or click here to browse</h4></label>
               <input
-              id='clickInput'
-              type='file'
-              onChange={() => { this.handleFiles(this.fileInput.current.files) }}
-              ref={this.fileInput}
-              style={{ position: 'fixed', top: '-1000px' }} />
+                id='clickInput'
+                type='file'
+                onChange={() => { this.handleFiles(this.fileInput.current.files) }}
+                ref={this.fileInput}
+                style={{ position: 'fixed', top: '-1000px' }} />
             </Fragment>
           }
         </WelcomeStyled>
@@ -180,9 +180,9 @@ class App extends Component {
           errors = true
         }
         if (filesUploaded === files.length) {
-          this.updateStatusBar((errors) ?
-            'Some errors occurred while uploading. Check console.' :
-            'All files added successfully.'
+          this.updateStatusBar((errors)
+            ? 'Some errors occurred while uploading. Check console.'
+            : 'All files added successfully.'
           )
           this.browseZipFolder(this.state.relativePath)
         }
@@ -207,12 +207,12 @@ class App extends Component {
     return (
       <Fragment>
         <Header
-        closeZip={() => { this.closeZip() }}
-        createZip={() => { this.createZip() }}
-        downloadZip={() => { this.downloadZip() }}
-        newFolder={() => { this.newFolder() }}
-        uploadFile={() => { this.uploadFile() }}
-        zipOpen={this.state.browsing} />
+          closeZip={() => { this.closeZip() }}
+          createZip={() => { this.createZip() }}
+          downloadZip={() => { this.downloadZip() }}
+          newFolder={() => { this.newFolder() }}
+          uploadFile={() => { this.uploadFile() }}
+          zipOpen={this.state.browsing} />
         {this.state.browsing
           ? <Browser
             isRoot={(this.state.relativePath === '')}
@@ -228,11 +228,11 @@ class App extends Component {
         <StatusBar statusText={this.state.status} />
 
         <input
-        id='fileUploader'
-        type='file'
-        onChange={this.handleFileUpload.bind(this)}
-        ref={this.fileUploader}
-        style={{ position: 'fixed', top: '-1000px' }} />
+          id='fileUploader'
+          type='file'
+          onChange={this.handleFileUpload.bind(this)}
+          ref={this.fileUploader}
+          style={{ position: 'fixed', top: '-1000px' }} />
       </Fragment>
     )
   }
