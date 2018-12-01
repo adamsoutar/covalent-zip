@@ -60,9 +60,15 @@ class App extends Component {
   // It's 1:04AM
   upOneFolder() {
     // TODO: Investigate why this always returns to root
-    var folders = this.state.relativePath.split('/').splice(-1, 1)
-    var rP = folders.join('/')
-    this.browseZipFolder(`${rP}${(rP === '') ? '' : '/'}`)
+    const folders = this.state.relativePath.split('/')
+    folders.pop()
+    folders.pop()
+    console.log(folders)
+    const rP = folders.join('/')
+    console.log(rP)
+    const newPath = `${rP}${(rP === '') ? '' : '/'}`
+    console.log(newPath)
+    this.browseZipFolder(newPath)
   }
 
   render() {

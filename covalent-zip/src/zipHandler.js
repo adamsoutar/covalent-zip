@@ -32,7 +32,7 @@ var funcs = {
       if (f === relativePath) {
         continue
       }
-      
+
       if (f.includes(relativePath)) {
         const fDepth = getFolderDepth(f)
         const relName = f.replace(relativePath, '')
@@ -42,17 +42,12 @@ var funcs = {
           returnVals.files.push(relName)
           continue
         }
-
-        console.log(`${f} depth: ${fDepth}, my depth: ${folderDepth}`)
         if ((fDepth === folderDepth + 1) && /\/$/.test(f)) {
           // It's a sub-folder!
           returnVals.folders.push(relName.replace('/', ''))
         }
       }
     }
-
-    console.log(`Files in ${relativePath}:`)
-    console.dir(returnVals)
 
     return returnVals
   }

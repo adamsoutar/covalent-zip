@@ -8,7 +8,8 @@ const HeaderStyled = styled.div`
   color: ${cnst.colours.barText};
   line-height: ${cnst.headerHeight}px;
   padding-left: 20px;
-  font-size: 34px;
+  font-size: 30px;
+  font-family: 'Arial Black', 'Arial', sans-serif;
 `
 
 class Header extends Component {
