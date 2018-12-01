@@ -42,7 +42,7 @@ class Welcome extends Component {
           return
         }
         this.props.updateStatusBar(`Previewing ${fileName}`)
-        this.props.zipLoaded()
+        this.props.zipLoaded(fileName)
       })
       this.setState({
         loading: true,
@@ -86,7 +86,8 @@ class App extends Component {
       browsing: false,
       relativePath: '',
       folderContents: [],
-      status: 'Idle'
+      status: 'Idle',
+      fileName: 'none'
     }
   }
 
@@ -139,6 +140,24 @@ class App extends Component {
   }
   createZip () {
     zipHandler.createNew()
+    this.zipLoaded('newZip.zip')
+    this.updateStatusBar('Zip file created')
+  }
+  downloadZip () {
+    zipHandler.getZipAsBlob((err, fBlob) => {
+      if (err) {
+        this.updateStatusBar('Failed to compress files!')
+        console.log(err)
+        return
+      }
+      FileSaver.saveAs(fBlob, this.state.fileName)
+    })
+  }
+
+  zipLoaded (fileName) {
+    this.setState({
+      fileName: fileName
+    })
     this.browseZipFolder('')
   }
 
@@ -148,6 +167,7 @@ class App extends Component {
         <Header
         closeZip={() => { this.closeZip() }}
         createZip={() => { this.createZip() }}
+        downloadZip={() => { this.downloadZip() }}
         zipOpen={this.state.browsing} />
         {this.state.browsing
           ? <Browser
@@ -158,7 +178,7 @@ class App extends Component {
             downloadFile={(relName) => { this.downloadFile(relName) }}
             contents={this.state.folderContents} />
           : <Welcome
-            zipLoaded={() => { this.browseZipFolder('') }}
+            zipLoaded={(x) => { this.zipLoaded(x) }}
             updateStatusBar={(x) => { this.updateStatusBar(x) }}
           />}
         <StatusBar statusText={this.state.status} />

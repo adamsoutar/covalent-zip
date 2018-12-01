@@ -65,6 +65,15 @@ var funcs = {
 
   createNew: () => {
     zipFile = new JSZip()
+  },
+
+  getZipAsBlob: (callback) => {
+    zipFile.generateAsync({ type: 'blob' })
+    .then((blob) => {
+      callback(null, blob)
+    }, (err) => {
+      callback(err, null)
+    })
   }
 }
 

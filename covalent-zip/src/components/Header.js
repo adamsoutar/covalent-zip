@@ -13,10 +13,13 @@ const HeaderStyled = styled.div`
 `
 const MenuStyled = styled.div`
   float: right;
-  margin-right: 20px;
   font-size: 25px;
   font-family: 'Arial', sans-serif;
   cursor: pointer;
+`
+const MenuItem = styled.div`
+  float: left;
+  margin-right: 20px;
 `
 
 class Header extends Component {
@@ -27,8 +30,13 @@ class Header extends Component {
 
           <MenuStyled>
             {this.props.zipOpen ?
-              <span onClick={this.props.closeZip}>close</span> :
-              <span onClick={this.props.createZip}>create</span>
+              <Fragment>
+                <MenuItem onClick={this.props.newFolder}>new folder</MenuItem>
+                <MenuItem onClick={this.props.uploadFile}>upload file</MenuItem>
+                <MenuItem onClick={this.props.downloadZip}>compress</MenuItem>
+                <MenuItem onClick={this.props.closeZip}>close</MenuItem>
+              </Fragment>
+              : <MenuItem onClick={this.props.createZip}>create</MenuItem>
             }
           </MenuStyled>
       </HeaderStyled>
