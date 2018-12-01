@@ -21,7 +21,23 @@
     -->
     <title>React App</title>
     <script src='%PUBLIC_URL%/jszip.min.js'></script>
-    <style>html, body, #root { height: 100%; padding: 0; margin: 0; }</style>
+    <style>
+      html, body, #root { height: 100%; padding: 0; margin: 0; }
+      .file-drop-target {
+        display: flex;
+        flex-flow: column nowrap;
+        justify-content: center;
+        align-items: center;
+        align-content: center;
+        height: 100%;
+      }
+      h1 {
+        color: #032F6A;
+      }
+      h4 {
+        color: #696969;
+      }
+    </style>
   </head>
   <body>
     <noscript>

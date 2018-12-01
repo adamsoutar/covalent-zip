@@ -7,12 +7,7 @@ import FileDrop from 'react-file-drop'
 import zipHandler from './zipHandler'
 import Browser from './components/Browser'
 
-const WelcomeStyled = styled.div`
-  display: flex;
-  flex-flow: column nowrap;
-  justify-content: center;
-  align-items: center;
-  align-content: center;
+const WelcomeStyled = styled(FileDrop)`
   height: calc(100% - ${cnst.headerHeight + cnst.statusBarHeight}px);
 `
 
@@ -32,11 +27,9 @@ class Welcome extends Component {
 
   render() {
    return (
-     <WelcomeStyled>
-      <FileDrop onDrop={(files) => { this.handleDrop(files) }}>
+     <WelcomeStyled onDrop={(files) => { this.handleDrop(files) }}>
         <h1>The next level zip app</h1>
         <h4>Drop a file here, or click to browse</h4>
-      </FileDrop>
      </WelcomeStyled>
    )
   }
