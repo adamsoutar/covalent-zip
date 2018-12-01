@@ -5,10 +5,7 @@ import StatusBar from './components/StatusBar'
 import Header from './components/Header'
 import FileDrop from 'react-file-drop'
 import zipHandler from './zipHandler'
-
-const Browser = () => {
- return <div>File loaded.</div>
-}
+import Browser from './components/Browser'
 
 const WelcomeStyled = styled.div`
   display: flex;
@@ -55,18 +52,24 @@ class App extends Component {
     }
   }
 
-  zipLoaded() {
-    this.setState({
-      browsing: true
-    })
-    this.browseZipFolder('')
-  }
-
   browseZipFolder(relativePath) {
     this.setState({
       relativePath: relativePath,
-      folderContents: zipHandler.filesInPath(relativePath)
+      folderContents: zipHandler.filesInPath(relativePath),
+      browsing: true
     })
+  }
+
+  enterFolder(folderName) {
+    this.browseZipFolder(`${this.state.relativePath}${folderName}/`)
+  }
+
+  // It's 1:04AM
+  upOneFolder() {
+    // TODO: Investigate why this always returns to root
+    var folders = this.state.relativePath.split('/').splice(-1, 1)
+    var rP = folders.join('/')
+    this.browseZipFolder(`${rP}${(rP === '') ? '' : '/'}`)
   }
 
   render() {
@@ -74,8 +77,12 @@ class App extends Component {
       <Fragment>
         <Header />
         {this.state.browsing ?
-          <Browser contents={this.state.folderContents} /> :
-          <Welcome zipLoaded={() => { this.zipLoaded() } } />}
+          <Browser
+            isRoot={(this.state.relativePath === '')}
+            enterFolder={(x) => { this.enterFolder(x) }}
+            upOneFolder={() => { this.upOneFolder() }}
+            contents={this.state.folderContents} /> :
+          <Welcome zipLoaded={() => { this.browseZipFolder('') } } />}
         <StatusBar statusText="Idle"/>
       </Fragment>
     )

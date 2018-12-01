@@ -20,7 +20,7 @@ var funcs = {
   },
 
   filesInPath: (relativePath) => {
-    // E.G files/folder/image.png is depth 2
+    // E.G /files/folder/image.png is depth 2
     var folderDepth = getFolderDepth(relativePath)
     var returnVals = {
       files: [],
@@ -28,7 +28,11 @@ var funcs = {
     }
 
     for (let f in zipFile.files) {
-      // If it's in the folder we're in
+      // We don't count ourselves as an empty file
+      if (f === relativePath) {
+        continue
+      }
+      
       if (f.includes(relativePath)) {
         const fDepth = getFolderDepth(f)
         const relName = f.replace(relativePath, '')
@@ -39,12 +43,16 @@ var funcs = {
           continue
         }
 
-        if (fDepth === folderDepth + 1 && /\/$/.test(f)) {
+        console.log(`${f} depth: ${fDepth}, my depth: ${folderDepth}`)
+        if ((fDepth === folderDepth + 1) && /\/$/.test(f)) {
           // It's a sub-folder!
           returnVals.folders.push(relName.replace('/', ''))
         }
       }
     }
+
+    console.log(`Files in ${relativePath}:`)
+    console.dir(returnVals)
 
     return returnVals
   }
