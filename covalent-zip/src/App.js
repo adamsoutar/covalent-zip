@@ -7,14 +7,12 @@ import FileDrop from 'react-file-drop'
 import zipHandler from './zipHandler'
 import Browser from './components/Browser'
 
-var statusBarText = 'Idle'
-
 const WelcomeStyled = styled(FileDrop)`
   height: calc(100% - ${cnst.headerHeight + cnst.statusBarHeight}px);
 `
 
 class Welcome extends Component {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.state = {
       mainTitle: 'The next level zip app',
@@ -23,7 +21,7 @@ class Welcome extends Component {
     }
   }
 
-  handleDrop(files) {
+  handleDrop (files) {
     if (files[0]) {
       // They've given us something!
       // TODO: Show loading
@@ -53,29 +51,28 @@ class Welcome extends Component {
     }
   }
 
-  render() {
-   return (
-     <Fragment>
-         <WelcomeStyled onDrop={(files) => { this.handleDrop(files) }}>
-         {this.state.loading ? (
-           <Fragment>
-             <h1>Unpacking preview...</h1>
-             <h4>Please wait while load {this.state.fileName}</h4>
-           </Fragment>)
-           : (
-           <Fragment>
-             <h1>{this.state.mainTitle}</h1>
-             <h4>Drop a file here, or click to browse</h4>
-           </Fragment>)
-         }
+  render () {
+    return (
+      <Fragment>
+        <WelcomeStyled onDrop={(files) => { this.handleDrop(files) }}>
+          {this.state.loading
+            ? <Fragment>
+              <h1>Unpacking preview...</h1>
+              <h4>Please wait while load {this.state.fileName}</h4>
+            </Fragment>
+            : <Fragment>
+              <h1>{this.state.mainTitle}</h1>
+              <h4>Drop a file here, or click to browse</h4>
+            </Fragment>
+          }
         </WelcomeStyled>
       </Fragment>
-   )
+    )
   }
 }
 
 class App extends Component {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.state = {
       browsing: false,
@@ -85,13 +82,13 @@ class App extends Component {
     }
   }
 
-  updateStatusBar(newStr) {
+  updateStatusBar (newStr) {
     this.setState({
       status: newStr
     })
   }
 
-  browseZipFolder(relativePath) {
+  browseZipFolder (relativePath) {
     this.setState({
       relativePath: relativePath,
       folderContents: zipHandler.filesInPath(relativePath),
@@ -99,12 +96,12 @@ class App extends Component {
     })
   }
 
-  enterFolder(folderName) {
+  enterFolder (folderName) {
     this.browseZipFolder(`${this.state.relativePath}${folderName}/`)
   }
 
   // It's 1:04AM
-  upOneFolder() {
+  upOneFolder () {
     // TODO: Investigate why this always returns to root
     const folders = this.state.relativePath.split('/')
     folders.pop()
@@ -114,23 +111,22 @@ class App extends Component {
     this.browseZipFolder(newPath)
   }
 
-  render() {
+  render () {
     return (
       <Fragment>
         <Header />
-        {this.state.browsing ?
-          <Browser
+        {this.state.browsing
+          ? <Browser
             isRoot={(this.state.relativePath === '')}
             enterFolder={(x) => { this.enterFolder(x) }}
             upOneFolder={() => { this.upOneFolder() }}
             updateStatusBar={(x) => { this.updateStatusBar(x) }}
             contents={this.state.folderContents} />
-          :
-          <Welcome
-            zipLoaded={() => { this.browseZipFolder('') } }
+          : <Welcome
+            zipLoaded={() => { this.browseZipFolder('') }}
             updateStatusBar={(x) => { this.updateStatusBar(x) }}
           />}
-        <StatusBar statusText={this.state.status}/>
+        <StatusBar statusText={this.state.status} />
       </Fragment>
     )
   }

@@ -15,7 +15,7 @@ const ZipItemStyled = styled.div`
 `
 
 class ZipItem extends Component {
-  render() {
+  render () {
     return (
       <ZipItemStyled onClick={this.props.onClick}>
         {this.props.item}
@@ -25,10 +25,10 @@ class ZipItem extends Component {
 }
 
 class Browser extends Component {
-  render() {
+  render () {
     return (
       <BrowserStyled>
-        {this.props.isRoot ? <Fragment /> : <ZipItem item=".." onClick={() => {
+        {this.props.isRoot ? <Fragment /> : <ZipItem item='..' onClick={() => {
           this.props.upOneFolder()
         }} /> }
 

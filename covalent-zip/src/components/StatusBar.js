@@ -11,7 +11,7 @@ const StatusBarStyled = styled.div`
 `
 
 class StatusBar extends Component {
-  render() {
+  render () {
     return (
       <StatusBarStyled>
         {this.props.statusText}

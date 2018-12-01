@@ -2,7 +2,7 @@ import JSZip from 'jszip'
 
 var zipFile
 
-function getFolderDepth(pth) {
+function getFolderDepth (pth) {
   return pth.split('/').length - 1
 }
 
@@ -12,14 +12,14 @@ var funcs = {
 
     // Read file to and give to JSZip
     reader.onloadend = (readerOutput) => {
-      zipFile= new JSZip()
+      zipFile = new JSZip()
       zipFile.loadAsync(reader.result)
-      .then((zip) => {
-        callback(null, zip)
-      })
-      .catch((err) => {
-        callback(err, null)
-      })
+        .then((zip) => {
+          callback(null, zip)
+        })
+        .catch((err) => {
+          callback(err, null)
+        })
     }
     reader.readAsArrayBuffer(fileObj)
   },

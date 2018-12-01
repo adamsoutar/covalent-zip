@@ -13,7 +13,7 @@ const HeaderStyled = styled.div`
 `
 
 class Header extends Component {
-  render() {
+  render () {
     return (
       <HeaderStyled>
           Covalent Zip
