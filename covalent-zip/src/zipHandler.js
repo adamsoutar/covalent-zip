@@ -55,6 +55,12 @@ var funcs = {
     }
 
     return returnVals
+  },
+
+  getFileAsBlob: (relName, callback) => {
+    zipFile.file(relName).async('blob')
+    .then((fBlob) => { callback(null, fBlob) })
+    .catch((err) => { callback(err, null) })
   }
 }
 

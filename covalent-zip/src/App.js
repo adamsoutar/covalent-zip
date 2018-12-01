@@ -6,6 +6,7 @@ import Header from './components/Header'
 import FileDrop from 'react-file-drop'
 import zipHandler from './zipHandler'
 import Browser from './components/Browser'
+import FileSaver from 'file-saver'
 
 const WelcomeStyled = styled(FileDrop)`
   height: calc(100% - ${cnst.headerHeight + cnst.statusBarHeight}px);
@@ -111,6 +112,18 @@ class App extends Component {
     this.browseZipFolder(newPath)
   }
 
+  downloadFile (relName) {
+    const fileName = `${this.state.relativePath}${relName}`
+    zipHandler.getFileAsBlob(fileName, (err, fBlob) => {
+      if (err) {
+        this.updateStatusBar('Failed to download file.')
+        console.log(err)
+        return
+      }
+      FileSaver.saveAs(fBlob, relName)
+    })
+  }
+
   render () {
     return (
       <Fragment>
@@ -121,6 +134,7 @@ class App extends Component {
             enterFolder={(x) => { this.enterFolder(x) }}
             upOneFolder={() => { this.upOneFolder() }}
             updateStatusBar={(x) => { this.updateStatusBar(x) }}
+            downloadFile={(relName) => { this.downloadFile(relName) }}
             contents={this.state.folderContents} />
           : <Welcome
             zipLoaded={() => { this.browseZipFolder('') }}
