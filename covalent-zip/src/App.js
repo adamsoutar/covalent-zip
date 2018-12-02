@@ -158,9 +158,10 @@ class App extends Component {
     // TODO: Use a styled modal, not prompt
     const folderName = prompt('Name for new folder:')
     if (folderName) {
-      zipHandler.createFolder(folderName)
+      zipHandler.createFolder(`${this.state.relativePath}${folderName}`)
       // Update the view
       this.browseZipFolder(this.state.relativePath)
+      this.updateStatusBar(`Created ${folderName}/`)
     } else {
       this.updateStatusBar("Can't create a folder with no name!")
     }
