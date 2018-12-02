@@ -16,7 +16,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "deploy": "gh-pages -d build"
+    "deploy": "npm run build && gh-pages -d build --repo https://github.com/Adybo123/covalent-zip.git"
   },
   "eslintConfig": {
     "extends": "react-app"
