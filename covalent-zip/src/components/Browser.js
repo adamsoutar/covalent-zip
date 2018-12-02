@@ -2,7 +2,8 @@ import React, { Component, Fragment } from 'react'
 import FolderIcon from '../icons/folder.png'
 import DocumentIcon from '../icons/document.png'
 import ImageIcon from '../icons/image.png'
-import CrossIcon from '../icons/cross.png'
+import NoIcon from '../icons/no.png'
+import LeftIcon from '../icons/left.png'
 import styled from 'styled-components'
 import cnst from '../constants'
 
@@ -14,7 +15,7 @@ const BrowserStyled = styled.div`
 const ZipItemStyled = styled.div`
   height: ${cnst.zipItemHeight}px;
   line-height: ${cnst.zipItemHeight}px;
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid ${cnst.colours.separator};
   padding-left: 20px;
   cursor: pointer;
 `
@@ -30,13 +31,14 @@ const ItemIcon = styled.img`
 class ZipItem extends Component {
   determineIcon () {
     if (!(this.props.file || this.props.folder)) {
-      return CrossIcon
+      return NoIcon
     }
     if (this.props.file) {
       const fileSplit = this.props.item.split('.')
       const ext = fileSplit[fileSplit.length - 1]
       return (cnst.imageTypes.includes(ext.toLowerCase())) ? ImageIcon : DocumentIcon
     } else {
+      if (this.props.up) return LeftIcon
       return FolderIcon
     }
   }
@@ -62,7 +64,7 @@ class Browser extends Component {
   render () {
     return (
       <BrowserStyled>
-        {this.props.isRoot ? <Fragment /> : <ZipItem item='..' folder onClick={() => {
+        {this.props.isRoot ? <Fragment /> : <ZipItem item='..' folder up onClick={() => {
           this.props.upOneFolder()
         }} /> }
 

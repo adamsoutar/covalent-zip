@@ -1,4 +1,9 @@
 import React, { Component, Fragment } from 'react'
+import UpIcon from '../icons/up.png'
+import SaveIcon from '../icons/save.png'
+import FolderIcon from '../icons/folder.png'
+import CloseIcon from '../icons/cross.png'
+import CreateIcon from '../icons/create.png'
 import styled from 'styled-components'
 import cnst from '../constants'
 
@@ -16,9 +21,14 @@ const MenuStyled = styled.div`
   font-size: 25px;
   font-family: 'Arial', sans-serif;
   cursor: pointer;
+  height: 1px;
 `
-const MenuItem = styled.div`
-  float: left;
+const menuIconSize = cnst.headerHeight - cnst.headerIconPadding * 2
+const MenuItem = styled.img`
+  position: relative;
+  top: ${cnst.headerIconPadding}px;
+  width: ${menuIconSize}px;
+  height: ${menuIconSize}px;
   margin-right: 20px;
 `
 
@@ -31,12 +41,12 @@ class Header extends Component {
         <MenuStyled>
           {this.props.zipOpen
             ? <Fragment>
-              <MenuItem onClick={this.props.newFolder}>new folder</MenuItem>
-              <MenuItem onClick={this.props.uploadFile}>upload file</MenuItem>
-              <MenuItem onClick={this.props.downloadZip}>compress</MenuItem>
-              <MenuItem onClick={this.props.closeZip}>close</MenuItem>
+              <MenuItem onClick={this.props.newFolder} src={FolderIcon} />
+              <MenuItem onClick={this.props.uploadFile} src={UpIcon} />
+              <MenuItem onClick={this.props.downloadZip} src={SaveIcon} />
+              <MenuItem onClick={this.props.closeZip} src={CloseIcon} />
             </Fragment>
-            : <MenuItem onClick={this.props.createZip}>create</MenuItem>
+            : <MenuItem onClick={this.props.createZip} src={CreateIcon} />
           }
         </MenuStyled>
       </HeaderStyled>
