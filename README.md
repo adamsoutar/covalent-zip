@@ -6,4 +6,4 @@ Create, compress, and download newly created zip files, explore, preview and dow
 
 Try it out here:
 
-[https://adybo123.github.io/covalent-zip/](https://adybo123.github.io/covalent-zip/)
+[https://adamsoutar.github.io/covalent-zip/](https://adamsoutar.github.io/covalent-zip/)
